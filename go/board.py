@@ -26,6 +26,7 @@ class Board(Array):
 
     def __init__(self, width):
         super(Board, self).__init__(width, width, self.EMPTY)
+        self.size = width
 
         # Turn counter
         self._turn = self.BLACK
