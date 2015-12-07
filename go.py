@@ -10,7 +10,7 @@ def main():
     # Get arguments
     parser = argparse.ArgumentParser(description='Starts a game of go in the terminal.')
     parser.add_argument('-s', '--size', type=int, default=19, help='size of board')
-    parser.add_argument("-a", "--ai", default=False, action="store_true", help='whether to play against the AI')
+    parser.add_argument("-a", "--ai", action="store_true", help='whether to play against the AI')
 
     # have argument for playing again AI...
     # have method to get a move from the AI, given the current board
@@ -36,18 +36,18 @@ def main():
         """
         board.move(*view.cursor)
         if args.ai:
-            ai_move()
+            do_ai_move()
 
         view.redraw()
 
-    def ai_move():
+    def do_ai_move():
         valid_move = False
         while not valid_move:
             ai_move = ai.get_move(board)
             try:
                 board.move(*ai_move)
                 valid_move = True
-            except BoardError:
+            except BoardError as be:
                 print "AI made invalid move!  Moving again: " + be.message
 
     def undo():
