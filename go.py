@@ -28,19 +28,10 @@ def main():
     ai = Random_AI()
     err = None
 
-    # User actions
-    def move():
+    def _do_ai_move():
         """
-        Makes a move at the current position of the cursor for the current
-        turn.
+        Gets a position to play from AI until the play results in a valid move.
         """
-        board.move(*view.cursor)
-        if args.ai:
-            do_ai_move()
-
-        view.redraw()
-
-    def do_ai_move():
         valid_move = False
         while not valid_move:
             ai_move = ai.get_move(board)
@@ -49,6 +40,19 @@ def main():
                 valid_move = True
             except BoardError as be:
                 print "AI made invalid move!  Moving again: " + be.message
+
+    # User actions
+    def move():
+        """
+        Makes a move at the current position of the cursor for the current
+        turn.  If the AI is enabled, also performs the AI move, returning to
+        the player's turn.
+        """
+        board.move(*view.cursor)
+        if args.ai:
+            _do_ai_move()
+
+        view.redraw()
 
     def undo():
         """
